@@ -63,7 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         ((TextView)findViewById(R.id.name)).setText(name);
-        ((TextView)findViewById(R.id.rating)).setText(rating);
+        ((TextView)findViewById(R.id.rating)).setText("rating : "+rating);
         ((TextView)findViewById(R.id.open)).setText("Status :"+(openNow?" Open Now":" Closed"));
+        ((TextView)findViewById(R.id.location)).setText("location :"+latitude+" , "+langitude);
     }
 }
