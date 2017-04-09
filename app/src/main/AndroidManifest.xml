@@ -31,7 +31,8 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".activities.QuickConnectActivity" />
-        <activity android:name=".activities.ListOfContactsActivity"></activity>
+        <activity android:name=".activities.ListOfContactsActivity" />
+        <activity android:name=".activities.ListOfNearByPlaces"></activity>
     </application>
 
 </manifest>

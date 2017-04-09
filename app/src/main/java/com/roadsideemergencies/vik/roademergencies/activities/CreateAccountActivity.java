@@ -9,8 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.roadsideemergencies.vik.roademergencies.R;
-import com.roadsideemergencies.vik.roademergencies.utils.Utility;
+import com.roadsideemergencies.vik.roademergencies.datacontroller.AppDataController;
 import com.roadsideemergencies.vik.roademergencies.models.User;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -57,18 +58,17 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             Utility.toast(this,"Password must be minimum 8 characters ");
             return;
         }
-
         final ProgressDialog progressDialog = ProgressDialog.show(this, "", "Creating Account");
-
-        User user = new User(userName,password);
-
+        final User user = new User(userName,password);
         if (Utility.getDatabaseHelper().createUser(user) > 0) {
             Utility.toast(CreateAccountActivity.this, "Account created successfully");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (progressDialog != null && progressDialog.isShowing()) {
-                        startActivity(new Intent(CreateAccountActivity.this, DataActivityWithTabs.class));
+                        progressDialog.dismiss();
+                        AppDataController.getInstance().setCurrentUser(user);
+                        startActivity(new Intent(CreateAccountActivity.this, QuickConnectActivity.class));
                         setResult(RESULT_OK);
                         finish();
                     }
@@ -81,7 +81,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
         }
     }
-
 
     /*
     *
@@ -113,7 +112,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 return false;
             }
         }
-
         return true;
     }
 

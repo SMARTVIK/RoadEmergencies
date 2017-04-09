@@ -23,6 +23,8 @@ import com.roadsideemergencies.vik.roademergencies.models.Contact;
 import com.roadsideemergencies.vik.roademergencies.models.PlaceDetailsModel;
 import com.roadsideemergencies.vik.roademergencies.utils.Utility;
 
+import java.util.ArrayList;
+
 import static com.roadsideemergencies.vik.roademergencies.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -142,7 +144,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
-
         ((TextView)findViewById(R.id.rating)).setText("rating : "+rating);
         ((TextView)findViewById(R.id.location)).setText("location :"+latitude+" , "+langitude);
     }
@@ -154,20 +155,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        final ProgressDialog progressDialog = ProgressDialog.show(MapsActivity.this,"","Adding to quick connect");
-                        Contact contact = new Contact(name,internationalNumber,AppDataController.getInstance().getCurrentUser().getId());
-                         if(Utility.getDatabaseHelper().createQuickConnectContact(contact)>0){
-                             new Handler().postDelayed(new Runnable() {
-                                 @Override
-                                 public void run() {
-                                     progressDialog.dismiss();
-                                     Utility.toast(MapsActivity.this,"Contact added Successfully");
-                                 }
-                             },2000);
-                         }else{
-                             progressDialog.dismiss();
-                             Utility.toast(MapsActivity.this,"Unable to add contact");
-                         }
+                        ArrayList<Contact> contacts = Utility.getDatabaseHelper().getAllContacts();
+                        Contact contact = new Contact(name, internationalNumber, AppDataController.getInstance().getCurrentUser().getId());
+                        if(contacts.contains(contact)){
+                            Utility.toast(MapsActivity.this, "Contact Already added");
+                            return;
+                        }
+                        final ProgressDialog progressDialog = ProgressDialog.show(MapsActivity.this, "", "Adding to quick connect");
+                        if (Utility.getDatabaseHelper().createQuickConnectContact(contact) > 0) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressDialog.dismiss();
+                                    Utility.toast(MapsActivity.this, "Contact added Successfully");
+                                }
+                            }, 2000);
+                        } else {
+                            progressDialog.dismiss();
+                            Utility.toast(MapsActivity.this, "Unable to add contact");
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -175,7 +181,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         dialog.dismiss();
                     }
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 }

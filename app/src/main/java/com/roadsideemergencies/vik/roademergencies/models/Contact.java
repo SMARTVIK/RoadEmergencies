@@ -56,4 +56,11 @@ public class Contact {
     public int getUserId() {
         return userId;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        Contact contact = (Contact) obj;
+        return this.getPhoneNumber().equalsIgnoreCase(contact.getPhoneNumber());
+    }
 }

@@ -60,12 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CONTACT_NAME + " TEXT,"
             + KEY_PHONE_NUMBER + " TEXT, " + KEY_USER_ID + " INTEGER "+ ")";
  
-    // todo_tag table create statement
-    private static final String CREATE_TABLE_TODO_TAG = "CREATE TABLE "
-            + TABLE_USERS_TAG + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_TODO_ID + " INTEGER," + KEY_TAG_ID + " INTEGER,"
-            + KEY_PHONE_NUMBER + " DATETIME" + ")";
- 
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -76,7 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_CONTACT);
-        db.execSQL(CREATE_TABLE_TODO_TAG);
     }
  
     @Override
@@ -152,12 +146,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Contact> getAllContacts() {
         ArrayList<Contact> contacts = new ArrayList<Contact>();
-        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACT;
         Log.e(LOG, selectQuery);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
         // looping through all rows and adding to list
-        if (c.moveToFirst()) {
+        if (c!=null && c.moveToFirst()) {
             do {
                 Contact contact = new Contact(c.getInt((c.getColumnIndex(KEY_ID))));
                 contact.setName((c.getString(c.getColumnIndex(KEY_CONTACT_NAME))));
@@ -226,6 +220,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteUser(int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, KEY_ID + " = ?", new String[] { String.valueOf(userId) });
+    }
+
+    public int deleteContact(int contactId) {
+        int result=-1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        result = db.delete(TABLE_CONTACT, KEY_ID + " = ?", new String[] { String.valueOf(contactId) });
+        return result;
     }
 
     // closing database

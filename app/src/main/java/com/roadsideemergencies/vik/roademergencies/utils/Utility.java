@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -13,10 +15,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.roadsideemergencies.vik.roademergencies.datacontroller.AppDataController;
-import com.roadsideemergencies.vik.roademergencies.database.DatabaseHelper;
-import com.roadsideemergencies.vik.roademergencies.models.GPSTracker;
 import com.roadsideemergencies.vik.roademergencies.activities.MapsActivity;
+import com.roadsideemergencies.vik.roademergencies.database.DatabaseHelper;
+import com.roadsideemergencies.vik.roademergencies.datacontroller.AppDataController;
+import com.roadsideemergencies.vik.roademergencies.models.GPSTracker;
 import com.roadsideemergencies.vik.roademergencies.models.PlaceDetailsModel;
 
 import org.json.JSONArray;
@@ -48,6 +50,13 @@ public class Utility {
         client.get(finalUrl, params, jsonHttpResponseHandler);*/
     }
 
+
+    public static int getDisplayHeight(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        manager.getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
+    }
 
     public static void getPlacesNearYou(String name, String type, String radius, String latitude, String logitude, JsonHttpResponseHandler jsonHttpResponseHandler) {
         String BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + logitude + "&radius=" + radius + "&types=" + type + "&name=" + name + "&key=AIzaSyCBtIdeK6xvVlhKkQ05qk4QK54K5LMxzBw";

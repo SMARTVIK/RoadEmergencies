@@ -102,20 +102,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Utility.toast(this, "Invalid username or password");
             return;
         }
-
         final ProgressDialog progressDialog = ProgressDialog.show(this, "", "LoggingIn");
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (progressDialog != null && progressDialog.isShowing()) {
                     AppDataController.getInstance().setCurrentUser(user);
-                    startActivity(new Intent(LoginActivity.this, DataActivityWithTabs.class));
+                    startActivity(new Intent(LoginActivity.this, QuickConnectActivity.class));
                     finish();
                 }
             }
         }, 2000);
-
 
     }
 }
