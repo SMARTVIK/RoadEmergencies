@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.fragments;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.roadsideemergencies.vik.roademergencies.adapter.Adapter;
+import com.roadsideemergencies.vik.roademergencies.models.GPSTracker;
+import com.roadsideemergencies.vik.roademergencies.R;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
+import com.roadsideemergencies.vik.roademergencies.models.MapsModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,7 +48,7 @@ public class TabFragment1 extends Fragment {
 
     private void initViews(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        adapter = new Adapter(list);
+        adapter = new Adapter(list,getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -119,13 +124,13 @@ public class TabFragment1 extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 super.onSuccess(statusCode, headers, responseString);
-
                 Log.d("jsonArray", responseString.toString());
             }
         });
 
-        }else{
+        } else {
             progressDialog.dismiss();
+            mRootView.findViewById(R.id.no_results_found).setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.models;
 
 import com.google.gson.Gson;
 

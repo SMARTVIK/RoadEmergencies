@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.roadsideemergencies.vik.roademergencies.models.Contact;
+import com.roadsideemergencies.vik.roademergencies.models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,19 +28,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table Names
     private static final String TABLE_USERS = "users";
-    private static final String TABLE_TAG = "tags";
+    private static final String TABLE_CONTACT = "contacts";
     private static final String TABLE_USERS_TAG = "todo_tags";
  
     // Common column names
     private static final String KEY_ID = "id";
-    private static final String KEY_CREATED_AT = "created_at";
+    private static final String KEY_PHONE_NUMBER = "created_at";
  
     // NOTES Table - column nmaes
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
 
     // TAGS Table - column names
-    private static final String KEY_TAG_NAME = "tag_name";
+    private static final String KEY_CONTACT_NAME = "tag_name";
 
     // NOTE_TAGS Table - column names
     private static final String KEY_TODO_ID = "todo_id";
@@ -47,19 +50,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Todo table create statement
     private static final String CREATE_TABLE_USERS = "CREATE TABLE "
             + TABLE_USERS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_USERNAME
-            + " TEXT," + KEY_PASSWORD + " TEXT," + KEY_CREATED_AT
+            + " TEXT," + KEY_PASSWORD + " TEXT," + KEY_PHONE_NUMBER
             + " DATETIME" + ")";
- 
+
+    private static final String KEY_USER_ID = "user_id";
+
     // Tag table create statement
-    private static final String CREATE_TABLE_TAG = "CREATE TABLE " + TABLE_TAG
-            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TAG_NAME + " TEXT,"
-            + KEY_CREATED_AT + " DATETIME" + ")";
+    private static final String CREATE_TABLE_CONTACT = "CREATE TABLE " + TABLE_CONTACT
+            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CONTACT_NAME + " TEXT,"
+            + KEY_PHONE_NUMBER + " TEXT, " + KEY_USER_ID + " INTEGER "+ ")";
  
     // todo_tag table create statement
     private static final String CREATE_TABLE_TODO_TAG = "CREATE TABLE "
             + TABLE_USERS_TAG + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_TODO_ID + " INTEGER," + KEY_TAG_ID + " INTEGER,"
-            + KEY_CREATED_AT + " DATETIME" + ")";
+            + KEY_PHONE_NUMBER + " DATETIME" + ")";
  
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -70,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("DatabaseHelper", "db created");
         // creating required tables
         db.execSQL(CREATE_TABLE_USERS);
-        db.execSQL(CREATE_TABLE_TAG);
+        db.execSQL(CREATE_TABLE_CONTACT);
         db.execSQL(CREATE_TABLE_TODO_TAG);
     }
  
@@ -78,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS_TAG);
         // create new tables
         onCreate(db);
@@ -89,12 +94,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAME, user.getUserName());
         values.put(KEY_PASSWORD, user.getPassword());
-        values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_PHONE_NUMBER, getDateTime());
         values.put(KEY_ID, user.getId());
         // insert row
         long userId = db.insert(TABLE_USERS, null, values);
         return userId;
     }
+
+
+
+    public long createQuickConnectContact(Contact contact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CONTACT_NAME, contact.getName());
+        values.put(KEY_PHONE_NUMBER, contact.getPhoneNumber());
+        values.put(KEY_USER_ID, contact.getUserId());
+        values.put(KEY_ID, contact.getId());
+        // insert row
+        long userId = db.insert(TABLE_CONTACT, null, values);
+        return userId;
+    }
+
 
     /**
      * get single todo
@@ -110,7 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user.setId(c.getInt(c.getColumnIndex(KEY_ID)));
         user.setUserName((c.getString(c.getColumnIndex(KEY_USERNAME))));
         user.setPassword((c.getString(c.getColumnIndex(KEY_PASSWORD))));
-        user.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        user.setCreatedAt(c.getString(c.getColumnIndex(KEY_PHONE_NUMBER)));
         return user;
     }
 
@@ -125,14 +145,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             user.setId(c.getInt(c.getColumnIndex(KEY_ID)));
             user.setUserName((c.getString(c.getColumnIndex(KEY_USERNAME))));
             user.setPassword((c.getString(c.getColumnIndex(KEY_PASSWORD))));
-            user.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+            user.setCreatedAt(c.getString(c.getColumnIndex(KEY_PHONE_NUMBER)));
         }
         return user;
     }
 
+    public ArrayList<Contact> getAllContacts() {
+        ArrayList<Contact> contacts = new ArrayList<Contact>();
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
+        Log.e(LOG, selectQuery);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                Contact contact = new Contact(c.getInt((c.getColumnIndex(KEY_ID))));
+                contact.setName((c.getString(c.getColumnIndex(KEY_CONTACT_NAME))));
+                contact.setPhoneNumber((c.getString(c.getColumnIndex(KEY_PHONE_NUMBER))));
+                contact.setUserId(c.getInt(c.getColumnIndex(KEY_USER_ID)));
+                contacts.add(contact);
+            } while (c.moveToNext());
+        }
+        return contacts;
+    }
 
     /**
-     * getting all todos
+     * getting all users
      * */
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<User>();
@@ -148,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 user.setId(c.getInt((c.getColumnIndex(KEY_ID))));
                 user.setUserName((c.getString(c.getColumnIndex(KEY_USERNAME))));
                 user.setPassword((c.getString(c.getColumnIndex(KEY_PASSWORD))));
-                user.setCreatedAt(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+                user.setCreatedAt(c.getString(c.getColumnIndex(KEY_PHONE_NUMBER)));
                 // adding to todo list
                 users.add(user);
             } while (c.moveToNext());

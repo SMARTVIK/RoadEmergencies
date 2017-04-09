@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,6 +7,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+
+import com.roadsideemergencies.vik.roademergencies.database.DatabaseHelper;
+import com.roadsideemergencies.vik.roademergencies.R;
+import com.roadsideemergencies.vik.roademergencies.datacontroller.AppDataController;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
+import com.roadsideemergencies.vik.roademergencies.models.User;
 
 import static com.roadsideemergencies.vik.roademergencies.R.id.login;
 
@@ -24,6 +30,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Utility.setDatabaseHelper(databaseHelper);
         initViews();
     }
+
+
 
     private void initViews() {
         findViewById(login).setOnClickListener(this);
@@ -44,7 +52,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-
 
 
 
@@ -89,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        User user = databaseHelper.getUser(userName, password);
+        final User user = databaseHelper.getUser(userName, password);
 
         if (user == null) {
             Utility.toast(this, "Invalid username or password");
@@ -102,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void run() {
                 if (progressDialog != null && progressDialog.isShowing()) {
+                    AppDataController.getInstance().setCurrentUser(user);
                     startActivity(new Intent(LoginActivity.this, DataActivityWithTabs.class));
                     finish();
                 }

@@ -5,28 +5,52 @@
     android:orientation="vertical">
 
 
-    <TextView
+    <ImageView
         android:id="@+id/Details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Details"
-        android:padding="10dp"
-        android:textColor="#193bda"
-        android:textSize="18sp"
+        android:src="@drawable/re" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:text=""
+        android:textColor="#3C51B4"
+        android:textSize="16sp"
         android:textStyle="bold" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
         android:orientation="vertical"
-        android:padding="35dp">
+        android:padding="25dp">
+
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingTop="10dp"
+            android:text=""
+            android:textColor="#3C51B4"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:paddingTop="10dp"
             android:text=""
             android:textColor="#3C51B4"
             android:textSize="16sp"
@@ -44,17 +68,19 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/open"
+            android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:padding="5dp"
             android:text=""
             android:textColor="#EB164E" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:paddingTop="10dp"
             android:text=""
             android:textColor="#EB164E" />
 

@@ -1,12 +1,15 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.roadsideemergencies.vik.roademergencies.R;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
+import com.roadsideemergencies.vik.roademergencies.models.MapsModel;
 
 import java.util.ArrayList;
 
@@ -16,8 +19,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder>{
     private Context context;
 
     //TODO this adapter can be used for withdraws also
-    public Adapter(ArrayList<MapsModel.ResultsBean> listOfWithdraw) {
+    public Adapter(ArrayList<MapsModel.ResultsBean> listOfWithdraw,Context context) {
         this.listOfWithdraw = listOfWithdraw;
+        this.context = context;
     }
 
     @Override
@@ -54,14 +58,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), MapsActivity.class);
                     MapsModel.ResultsBean resultsBean = listOfWithdraw.get(getLayoutPosition());
-                    intent.putExtra("lat", resultsBean.getGeometry().getLocation().getLat() + "");
-                    intent.putExtra("lang", resultsBean.getGeometry().getLocation().getLng() + "");
-                    intent.putExtra("name", resultsBean.getName());
-                    intent.putExtra("rating", resultsBean.getRating() + "");
-                    intent.putExtra("open_now", resultsBean.getOpening_hours()!=null ? resultsBean.getOpening_hours().isOpen_now():false);
-                    itemView.getContext().startActivity(intent);
+                    Utility.getPlaceDetails(resultsBean.getPlace_id(),context);
                 }
             });
 

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.roadsideemergencies.vik.roademergencies.Splash">
+    tools:context="com.roadsideemergencies.vik.roademergencies.activities.SplashActivity">
 
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/images" />
+        android:scaleType="fitXY"
+        android:src="@drawable/splash" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,8 +20,9 @@
         android:layout_centerInParent="true"
         android:text="ROAD EMERGENCIES"
         android:textColor="#0ed98a"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:textSize="32sp" />
+        android:visibility="gone" />
 
 
 </RelativeLayout>

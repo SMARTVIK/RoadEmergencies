@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -12,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.roadsideemergencies.vik.roademergencies.adapter.Adapter;
+import com.roadsideemergencies.vik.roademergencies.models.GPSTracker;
+import com.roadsideemergencies.vik.roademergencies.R;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
+import com.roadsideemergencies.vik.roademergencies.models.MapsModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,11 +29,11 @@ import cz.msebera.android.httpclient.Header;
  * Created by vik on 8/4/17.
  */
 
-public class TabFragment2 extends Fragment {
+public class TabFragment3 extends Fragment {
 
 
     private View mRootView;
-    private Adapter earningsAdapter;
+    private Adapter adapter;
     private ArrayList<MapsModel.ResultsBean> list = new ArrayList<>();
     private ProgressDialog progressDialog;
 
@@ -43,26 +48,22 @@ public class TabFragment2 extends Fragment {
 
     private void initViews(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        earningsAdapter = new Adapter(list);
+        adapter = new Adapter(list,getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(earningsAdapter);
+        recyclerView.setAdapter(adapter);
     }
-
 
     private void getPlacesNearYou() {
 
         progressDialog = ProgressDialog.show(getContext(), "", "Searching");
-
-
         if(Utility.getGpsTracker()!=null && Utility.getGpsTracker().getLatitude()>0 && Utility.getGpsTracker().getLongitude()>0 ) {
 
             GPSTracker gps = Utility.getGpsTracker();
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
-
-            Utility.getPlacesNearYou("PetrolPumps", "PetrolPumps", "1000", String.valueOf(latitude == 0 ? "28.499264" : latitude), String.valueOf(longitude == 0 ? "77.176466" : longitude), new JsonHttpResponseHandler() {
+            Utility.getPlacesNearYou("Hotels", "Hotels", "1000", String.valueOf(latitude == 0 ? "28.499264" : latitude), String.valueOf(longitude == 0 ? "77.176466" : longitude), new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -114,7 +115,8 @@ public class TabFragment2 extends Fragment {
 
                     list = mapsModel.getResults();
 
-                    earningsAdapter.setItems(list);
+                    adapter.setItems(list);
+
 
                 }
 

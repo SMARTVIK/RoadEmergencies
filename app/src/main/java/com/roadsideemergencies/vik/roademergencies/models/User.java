@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.models;
 
 import java.util.Random;
 
@@ -6,7 +6,7 @@ import java.util.Random;
  * Created by vik on 5/4/17.
  */
 
-class User {
+public class User {
     private static  int BASE_ID = 1000;
     private String userName;
     private String password;

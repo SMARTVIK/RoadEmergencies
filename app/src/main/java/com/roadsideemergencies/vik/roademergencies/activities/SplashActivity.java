@@ -1,11 +1,13 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-public class Splash extends AppCompatActivity {
+import com.roadsideemergencies.vik.roademergencies.R;
+
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(Splash.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
         }, 2000);

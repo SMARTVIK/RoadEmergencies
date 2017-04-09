@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.models;
 
 public class GPSTracker{
     private double latitude; // latitude

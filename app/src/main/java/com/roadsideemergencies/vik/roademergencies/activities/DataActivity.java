@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.activities;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -22,6 +22,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.roadsideemergencies.vik.roademergencies.R;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
 
 public class DataActivity extends AppCompatActivity implements LocationListener ,OnMapReadyCallback{
 

@@ -1,4 +1,4 @@
-package com.roadsideemergencies.vik.roademergencies;
+package com.roadsideemergencies.vik.roademergencies.activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -15,6 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.roadsideemergencies.vik.roademergencies.models.GPSTracker;
+import com.roadsideemergencies.vik.roademergencies.R;
+import com.roadsideemergencies.vik.roademergencies.utils.Utility;
+import com.roadsideemergencies.vik.roademergencies.adapter.PagerAdapter;
 
 public class DataActivityWithTabs extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -62,9 +66,13 @@ public class DataActivityWithTabs extends AppCompatActivity implements GoogleApi
         if(adapter==null){
             TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
             tabLayout.addTab(tabLayout.newTab().setText("Hospitals"));
+            tabLayout.addTab(tabLayout.newTab().setText("Atm"));
+            tabLayout.addTab(tabLayout.newTab().setText("Restaurants"));
+            tabLayout.addTab(tabLayout.newTab().setText("Mechanic"));
+            tabLayout.addTab(tabLayout.newTab().setText("Ambulance"));
             tabLayout.addTab(tabLayout.newTab().setText("PetrolPumps"));
-            tabLayout.addTab(tabLayout.newTab().setText("Hotels"));
-            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.addTab(tabLayout.newTab().setText("police"));
+            tabLayout.setTabGravity(TabLayout.MODE_SCROLLABLE);
             final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
             adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
             viewPager.setAdapter(adapter);

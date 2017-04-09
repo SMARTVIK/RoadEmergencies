@@ -3,8 +3,8 @@
     package="com.roadsideemergencies.vik.roademergencies">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,25 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".Splash">
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DataActivity" />
-        <activity android:name=".CreateAccountActivity" />
-        <activity android:name=".DataActivityWithTabs"></activity>
-
-        <activity android:name=".MapsActivity"></activity>
-
+        <activity android:name=".activities.DataActivity" />
+        <activity android:name=".activities.CreateAccountActivity" />
+        <activity android:name=".activities.DataActivityWithTabs" />
+        <activity android:name=".activities.MapsActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".activities.QuickConnectActivity" />
+        <activity android:name=".activities.ListOfContactsActivity"></activity>
     </application>
 
 </manifest>

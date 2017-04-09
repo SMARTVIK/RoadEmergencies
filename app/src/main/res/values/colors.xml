@@ -6,4 +6,6 @@
     <color name="login_background">#E43F3F</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
+    <color name="tab_background_selected">#1465BE</color>
+    <color name="tab_background_unselected">#78909C</color>
 </resources>
